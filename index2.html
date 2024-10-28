@@ -98,8 +98,40 @@
                 color: #ff4500; /* Orange color on hover */
             }
 
+            /* Goofy Calculator Styling */
+            #calculator {
+                border: 3px solid #333;
+                padding: 20px;
+                width: 200px;
+                background-color: pink;
+                border-radius: 15px;
+                text-align: center;
+            }
+
+            #calculator input[type="button"] {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                margin: 5px;
+                background-color: yellow;
+                border: 2px solid #333;
+                border-radius: 10px;
+            }
+
+            #calculator input[type="text"] {
+                width: 170px;
+                height: 50px;
+                font-size: 24px;
+                margin-bottom: 10px;
+                border-radius: 10px;
+                text-align: right;
+                background-color: lightblue;
+                color: #333;
+                border: 2px solid #333;
+            }
         </style>
     </head>
+
     <body>
         <!-- Navigation Component -->
         <nav>
@@ -118,10 +150,49 @@
         <section id="projects">
             <h2>My Projects</h2>
             <h3>Project 1: Portfolio Website</h3>
-            <p>This is my personal portfolio where I showcase all my projects and skills.</p>
+            <p>Welcome to my digital playground! This isn't just a portfolio; it's a universe where my projects come to life like planets orbiting around the core of my ambition. Explore the orbits of creativity, technology, and problem-solving. Let’s make some magic happen!</p>
 
             <h3>Project 2: JavaScript Calculator</h3>
-            <p>A basic calculator built with HTML, CSS, and JavaScript.</p>
+            <p>Below is a goofy-looking calculator. It's not just for serious math—it’s for anyone who likes fun, quirky designs while calculating!</p>
+
+            <!-- Goofy Calculator -->
+            <div id="calculator">
+                <input type="text" id="result" readonly>
+                <br>
+                <input type="button" value="1" onclick="addToResult('1')">
+                <input type="button" value="2" onclick="addToResult('2')">
+                <input type="button" value="3" onclick="addToResult('3')">
+                <br>
+                <input type="button" value="4" onclick="addToResult('4')">
+                <input type="button" value="5" onclick="addToResult('5')">
+                <input type="button" value="6" onclick="addToResult('6')">
+                <br>
+                <input type="button" value="7" onclick="addToResult('7')">
+                <input type="button" value="8" onclick="addToResult('8')">
+                <input type="button" value="9" onclick="addToResult('9')">
+                <br>
+                <input type="button" value="+" onclick="addToResult('+')">
+                <input type="button" value="0" onclick="addToResult('0')">
+                <input type="button" value="-" onclick="addToResult('-')">
+                <br>
+                <input type="button" value="C" onclick="clearResult()">
+                <input type="button" value="=" onclick="calculateResult()">
+            </div>
+
+            <script>
+                function addToResult(value) {
+                    document.getElementById('result').value += value;
+                }
+
+                function clearResult() {
+                    document.getElementById('result').value = '';
+                }
+
+                function calculateResult() {
+                    const resultField = document.getElementById('result');
+                    resultField.value = eval(resultField.value);
+                }
+            </script>
         </section>
 
         <!-- Section 3: Contact Form -->
@@ -140,6 +211,5 @@
                 <input type="submit" value="Send Message">
             </form>
         </section>
-
     </body>
 </html>
