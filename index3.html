@@ -5,134 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PeBo - High Protein Meets Boba</title>
     <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #f8f8f8;
-            color: #333;
-            line-height: 1.6;
-        }
-        a {
-            text-decoration: none;
-        }
+        /* Global Transitions */
+* {
+    transition: all 0.3s ease-in-out;
+}
 
-        /* Header Navigation */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            background-color: #f8f8f8;
-        }
-        .logo img {
-            height: 40px;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-        nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-        }
-        .account-icon img {
-            height: 25px;
-        }
+/* Header Hover Effects */
+nav a:hover {
+    color: #0073e6;
+}
 
-        /* Hero Section */
-        #hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 50px;
-            background-color: #eef2f5;
-        }
-        .hero-text h1 {
-            font-size: 2.5em;
-            color: #333;
-        }
-        .hero-text p {
-            font-size: 1.2em;
-            color: #666;
-        }
-        .hero-image img {
-            height: 300px;
-        }
+/* Hero Section Animation */
+#hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 50px;
+    background-color: #eef2f5;
+    animation: fadeIn 1.5s ease-in-out;
+}
 
-        /* Product Overview */
-        #products {
-            padding: 50px;
-            background-color: #fff;
-            text-align: center;
-        }
-        .product-cards {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .product-card {
-            background-color: #f8f8f8;
-            padding: 20px;
-            border-radius: 10px;
-            width: 30%;
-            text-align: center;
-        }
-        .product-card img {
-            height: 150px;
-            margin-bottom: 15px;
-        }
-        .product-card h3 {
-            font-size: 1.5em;
-            margin: 10px 0;
-        }
-        .product-card p {
-            font-size: 1em;
-            color: #666;
-        }
-        .explore-btn {
-            color: #0073e6;
-            text-decoration: none;
-            font-weight: 600;
-        }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        /* About PeBo Section */
-        #story {
-            padding: 50px;
-            background-color: #eef2f5;
-        }
-        .story-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .story-text {
-            width: 50%;
-        }
-        .story-text h3 {
-            font-size: 1.8em;
-            color: #333;
-        }
-        .story-text p {
-            font-size: 1em;
-            color: #666;
-            margin-top: 15px;
-        }
-        .story-image img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .learn-btn {
-            color: #0073e6;
-            text-decoration: none;
-            font-weight: 600;
-        }
+/* Product Cards Animation */
+.product-card {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateY(0);
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+/* CTA Button Animation */
+.cta-btn {
+    margin-top: 15px;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #0073e6;
+    background-color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Fade-In for Story Section */
+#story {
+    padding: 50px;
+    background-color: #eef2f5;
+    opacity: 0;
+    animation: fadeInStory 2s ease-in-out forwards;
+}
+
+@keyframes fadeInStory {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer Social Media Icon Animation */
+.social-media img {
+    transition: transform 0.3s ease;
+}
+
+.social-media img:hover {
+    transform: scale(1.1);
+}
+
 
         /* Bottom Call-to-Action */
         #cta {
