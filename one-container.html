@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Kalyanam Dewri Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: "Playfair Display", serif;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            width: 700px;
+            background-color: #2f4f4f;
+            border-radius: 41px;
+            color: #ffffff;
+            margin: auto;
+            padding: 25px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #profile-pic {
+            height: 330px;
+            width: 280px;
+            border-radius: 50%;
+            display: block;
+            margin: 25px auto;
+            border: 5px solid #ffffff;
+            object-fit: cover;
+        }
+
+        .content > nav {
+            background-color: #2f4f4f;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        a button {
+            background-color: #006400;
+            margin-right: 10px;
+            width: 150px;
+            height: 60px;
+            border-radius: 25px;
+            text-align: center;
+            border: none;
+            color: #ffffff;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover button {
+            background-color: #f5f5f5;
+            color: #2f4f4f;
+            font-weight: 800;
+            border: 2px solid #006400;
+        }
+
+        header h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 36px;
+            color: #ffffff;
+            text-align: center;
+            font-style: italic;
+        }
+
+        #about, #why, #contact {
+            margin-top: 20px;
+        }
+
+        #about h2, #why h2, #contact h2 {
+            font-size: 20px;
+            color: #ffffff;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        #about h2::first-letter, #why h2::first-letter, #contact h2::first-letter {
+            font-size: 25px;
+            font-weight: 800;
+            font-style: italic;
+            color: #006400;
+        }
+
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <img src="your_photo.jpg" id="profile-pic" alt="Picture of Kalyanam">
+
+        <section class="content">
+            <header>
+                <h1>About Kalyanam Dewri</h1>
+            </header>
+
+            <nav id="navigation">
+                <a href="#about"><button>About</button></a>
+                <a href="#why"><button>Why</button></a>
+                <a href="#contact"><button>Contact</button></a>
+            </nav>
+
+            <section id="about">
+                <h2>
+                    Hi, I'm Kalyanam Dewri, an ambitious junior Computer Science student at ASU with roots in Guwahati, India.
+                    I bring together "old money" heritage and a passion for technological innovation. My interest lies at the intersection of 
+                    artificial intelligence and neuroscience, exploring how machine learning can replicate human cognition.
+                </h2>
+                <h2>
+                    Outside academics, I’m either coding, working out, or navigating the realms of high society.
+                </h2>
+            </section>
+
+            <section id="why">
+                <h2>
+                    My motivation is to be at the forefront of AI research and development.
+                </h2>
+            </section>
+
+            <section id="contact">
+                <h2>
+                    Feel free to connect with me for discussions on AI, philosophy, or collaborations in tech innovation. 
+                    Email: kdewri@asu.edu
+                </h2>
+            </section>
+        </section>
+    </section>
+</body>
+
+</html>
