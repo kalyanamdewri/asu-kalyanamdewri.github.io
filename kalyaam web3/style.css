@@ -1,15 +1,32 @@
+/* Variables */
+:root {
+    --primary-color: #E2C800;
+    --secondary-color: #000;
+    --background-color: #111;
+    --text-color: white;
+    --font-family: 'Playfair Display', serif;
+    --transition-duration: 0.3s;
+    --border-radius: 15px;
+}
+
 /* General Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-family);
 }
 
 /* Universal Styles */
 body {
-    background-color: #000;
-    color: white;
+    background-color: #b2b2ff;
+    opacity: 0.7;
+    background: radial-gradient(circle, transparent 20%, #b2b2ff 20%, #b2b2ff 80%, transparent 80%, transparent), 
+                radial-gradient(circle, transparent 20%, #b2b2ff 20%, #b2b2ff 80%, transparent 80%, transparent) 15px 15px, 
+                linear-gradient(#040410 1.2px, transparent 1.2px) 0 -0.6px, 
+                linear-gradient(90deg, #040410 1.2px, #b2b2ff 1.2px) -0.6px 0;
+    background-size: 30px 30px, 30px 30px, 15px 15px, 15px 15px;
+    color: var(--text-color);
     line-height: 1.6;
 }
 
@@ -27,7 +44,7 @@ body {
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
     text-align: center;
-    color: #E2C800;
+    color: var(--primary-color);
     animation: fadeIn 3s ease-in-out;
 }
 
@@ -48,17 +65,17 @@ nav {
 .nav-button {
     margin: 0 10px;
     padding: 10px 20px;
-    background-color: #000;
-    color: #E2C800;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
     border-radius: 25px;
     text-decoration: none;
     font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
 .nav-button:hover {
-    background-color: #E2C800;
-    color: #000;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
 /* Gallery */
@@ -67,13 +84,13 @@ nav {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
     padding: 20px;
-    background-color: #111;
+    background-color: var(--background-color);
 }
 
 .gallery-item img {
     width: 100%;
-    border-radius: 15px;
-    transition: transform 0.3s ease-in-out;
+    border-radius: var(--border-radius);
+    transition: transform var(--transition-duration) ease-in-out;
 }
 
 .gallery-item img:hover {
@@ -99,7 +116,7 @@ form {
 label {
     display: block;
     margin-bottom: 8px;
-    color: #E2C800;
+    color: var(--primary-color);
 }
 
 input, textarea {
@@ -114,12 +131,12 @@ button {
     width: 100%;
     padding: 15px;
     border: none;
-    background-color: #E2C800;
-    color: black;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 button:hover {
@@ -133,6 +150,7 @@ button:hover {
     to { opacity: 1; }
 }
 
+/* Responsive Design */
 @media (max-width: 600px) {
     h1 {
         font-size: 2rem;
