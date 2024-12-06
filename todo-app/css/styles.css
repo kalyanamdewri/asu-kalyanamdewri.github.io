@@ -1,0 +1,180 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: white;
+    margin: 0 1rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Input Section Styles */
+.input-section {
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#taskInput {
+    width: 75%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#addTaskBtn {
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#addTaskBtn:hover {
+    background-color: #45a049;
+}
+
+/* Task List Section Styles */
+.task-list-section {
+    margin: 1rem auto;
+    width: 90%;
+    max-width: 500px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li.completed span {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.complete-checkbox {
+    margin-right: 1rem;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.delete-btn {
+    padding: 0.3rem 0.6rem;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+
+/* About Page and General Section Styles */
+.about-section, .instructions-section, .resources-section {
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 600px;
+    background: #ffffff;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.about-section h2, .instructions-section h2, .resources-section h2 {
+    color: #4CAF50;
+}
+
+ul, ol {
+    margin-left: 1.5rem;
+}
+
+/* Quote Section (Footer) */
+.quote-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    text-align: center;
+    font-style: italic;
+    color: #4CAF50;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+    .input-section {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #taskInput {
+        width: 100%;
+    }
+
+    #addTaskBtn {
+        width: 100%;
+    }
+
+    li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .delete-btn {
+        margin-top: 0.5rem;
+    }
+}
