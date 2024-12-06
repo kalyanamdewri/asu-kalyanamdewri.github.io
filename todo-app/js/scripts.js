@@ -66,18 +66,22 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Function to Delete a Task from the DOM and LocalStorage
+    // Function to Delete a Task from the DOM and LocalStorage with Animation
     function deleteTask(deleteButton) {
         const taskElement = deleteButton.parentElement;
-        const taskName = taskElement.querySelector("span").textContent;
+        taskElement.classList.add("removed"); // Add the 'removed' class to animate
 
-        // Remove from DOM
-        taskElement.remove();
+        setTimeout(() => {
+            const taskName = taskElement.querySelector("span").textContent;
 
-        // Remove from LocalStorage
-        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks = tasks.filter(task => task.name !== taskName);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+            // Remove from DOM after the animation
+            taskElement.remove();
+
+            // Remove from LocalStorage
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks = tasks.filter(task => task.name !== taskName);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }, 300); // Delay to match the CSS animation
     }
 
     // Function to Toggle Task Completion in the DOM and LocalStorage
@@ -94,11 +98,19 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // (Extra Credit)
+    // Optional: Load Quote of the Day (Extra Credit)
     fetch("https://api.quotable.io/random")
         .then(response => response.json())
         .then(data => {
             document.getElementById("quote").textContent = `"${data.content}" - ${data.author}`;
         })
         .catch(error => console.log("Error fetching the quote:", error));
+
+    // Function to Delete All Tasks with Confirmation Dialog
+    document.getElementById("clearAllTasksBtn")?.addEventListener("click", function () {
+        if (confirm("Are you sure you want to delete all tasks?")) {
+            localStorage.removeItem("tasks");
+            taskList.innerHTML = ""; // Clear all tasks from the DOM
+        }
+    });
 });
