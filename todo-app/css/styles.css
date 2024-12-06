@@ -129,7 +129,7 @@ nav a:hover {
 
 .task-list-section::before {
     content: '';
-    background: url('images/bee-icon.png') no-repeat;
+    background: url('https://kalyanamdewri.github.io/todo-app/images/bee-icon.png') no-repeat;
     width: 30px;
     height: 30px;
     position: absolute;
