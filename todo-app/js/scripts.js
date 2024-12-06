@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("taskInput");
     const addTaskBtn = document.getElementById("addTaskBtn");
     const taskList = document.getElementById("taskList");
+    const clearAllTasksBtn = document.getElementById("clearAllTasksBtn");
 
     // Load tasks from LocalStorage when the document loads
     loadTasks();
@@ -22,9 +23,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Listener for Task Modifications
     taskList.addEventListener("click", function (e) {
         if (e.target.classList.contains("delete-btn")) {
-            deleteTask(e.target);
+            if (confirm("Are you sure you want to delete this task?")) {
+                deleteTask(e.target);
+            }
         } else if (e.target.classList.contains("complete-checkbox")) {
             toggleTaskCompletion(e.target);
+        }
+    });
+
+    // Event Listener for Deleting All Tasks
+    clearAllTasksBtn?.addEventListener("click", function () {
+        if (confirm("Are you sure you want to delete all tasks?")) {
+            localStorage.removeItem("tasks");
+            taskList.innerHTML = ""; // Clear all tasks from the DOM
         }
     });
 
@@ -35,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             createTaskElement(taskValue);
             saveTaskToLocalStorage(taskValue, false);
             taskInput.value = ""; // Clear the input field
+            taskInput.focus(); // Refocus the input field for quick entry
         } else {
             alert("Please enter a valid task.");
         }
@@ -105,12 +117,4 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("quote").textContent = `"${data.content}" - ${data.author}`;
         })
         .catch(error => console.log("Error fetching the quote:", error));
-
-    // Function to Delete All Tasks with Confirmation Dialog
-    document.getElementById("clearAllTasksBtn")?.addEventListener("click", function () {
-        if (confirm("Are you sure you want to delete all tasks?")) {
-            localStorage.removeItem("tasks");
-            taskList.innerHTML = ""; // Clear all tasks from the DOM
-        }
-    });
 });
