@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>My To-Do List</title>
+</head>
+
+<body>
+    <header>
+        <h1>My To-Do List</h1>
+        <nav>
+            <a href="todo-main.html">Home</a>
+            <a href="about-todo.html">About/Help</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Input Section for Adding New Tasks -->
+        <section class="input-section">
+            <input type="text" id="taskInput" placeholder="Add a new task">
+            <button id="addTaskBtn">Add Task</button>
+        </section>
+
+        <!-- Task List Section -->
+        <section class="task-list-section">
+            <ul id="taskList">
+                <!-- Task elements will be dynamically added here by JavaScript -->
+            </ul>
+        </section>
+    </main>
+
+    <!-- Optional Quote of the Day Section for Extra Credit -->
+    <footer>
+        <section class="quote-section">
+            <p id="quote">Fetching motivational quote...</p>
+        </section>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
