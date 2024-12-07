@@ -24,6 +24,36 @@ header {
     position: relative; /* Allow positioning of bee image */
 }
 
+/* Top Bar Styles */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+    font-size: 1.2rem;
+    background-color: rgba(255, 235, 179, 0.8); /* Slightly transparent yellow for better visibility */
+    color: #5C4033;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+#live-time {
+    font-weight: bold;
+}
+
+#location-weather {
+    display: flex;
+    align-items: center;
+}
+
+.weather-icon {
+    width: 25px;
+    margin-left: 0.5rem;
+}
+
+
 .bee-icon {
     width: 50px;
     position: absolute;

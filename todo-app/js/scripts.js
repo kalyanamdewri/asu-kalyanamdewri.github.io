@@ -4,9 +4,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const addTaskBtn = document.getElementById("addTaskBtn");
     const taskList = document.getElementById("taskList");
     const clearAllTasksBtn = document.getElementById("clearAllTasksBtn");
+    const quoteSection = document.getElementById("quote");
+    const liveTimeElement = document.getElementById("live-time");
+    const locationWeatherElement = document.getElementById("location-weather");
+
 
     // Load tasks from LocalStorage when the document loads
     loadTasks();
+
+    // Fetch the quote of the day
+    fetchQuoteOfTheDay();
+
+    // Initialize live time and weather
+    startLiveTime();
+    getLocationAndWeather();
 
     // Event Listener for Adding a Task
     addTaskBtn.addEventListener("click", function () {
@@ -38,6 +49,63 @@ document.addEventListener("DOMContentLoaded", function () {
             taskList.innerHTML = ""; // Clear all tasks from the DOM
         }
     });
+
+    // Function to Start the Live Time
+    function startLiveTime() {
+        function updateTime() {
+            const now = new Date();
+            const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+            const date = now.toLocaleDateString('en-US');
+            const time = now.toLocaleTimeString('en-US', { hour12: false });
+            liveTimeElement.textContent = `${day}, ${date}, ${time}`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+
+    // Function to Get User Location and Weather Information
+    function getLocationAndWeather() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+            locationWeatherElement.textContent = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function successCallback(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // Fetch weather using OpenWeatherMap API
+        const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5"; // Replace with your actual OpenWeatherMap API key
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const temperature = data.main.temp;
+                const weatherDescription = data.weather[0].description;
+
+                // Determine which icon to use based on temperature
+                let weatherIcon = "images/sunny-icon.png"; // Default sunny icon
+                if (temperature < 15) {
+                    weatherIcon = "images/cold-icon.png"; // Use cold icon if temperature is below 15°C
+                }
+
+                // Update weather information
+                locationWeatherElement.innerHTML = `Weather: ${Math.round(temperature)}°C, ${weatherDescription}
+                    <img src="${weatherIcon}" alt="weather icon" class="weather-icon">`;
+            })
+            .catch(error => {
+                locationWeatherElement.textContent = "Unable to fetch weather data.";
+                console.error("Error fetching weather data:", error);
+            });
+    }
+
+    function errorCallback(error) {
+        locationWeatherElement.textContent = "Unable to retrieve your location.";
+        console.error("Error getting location:", error);
+    }
 
     // Function to Add a Task
     function addTask() {
