@@ -29,10 +29,10 @@ header {
     color: #5C4033;
     font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
     margin-top: -10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Added spacing for better visual separation */
     text-align: center;
-    font-weight: bold; /* Make it slightly bolder */
-    text-decoration: underline; /* Add a subtle underline */
+    font-weight: bold;
+    text-decoration: underline; /* Keeps the underline for emphasis */
 }
 
 
@@ -56,9 +56,12 @@ header {
 
 #location-weather {
     display: flex;
-    align-items: center; /* Vertically center the weather icon */
-    gap: 0.5rem; /* Add space between text and the icon */
+    align-items: center; /* Ensures icon and text are vertically aligned */
+    gap: 0.5rem; /* Adds spacing between text and icon */
+    font-size: 1.2rem; /* Ensures font size matches other elements */
+    color: #5C4033; /* Matches the color scheme */
 }
+
 
 .weather-icon {
     width: 25px;
@@ -98,7 +101,7 @@ nav a:hover {
 
 /* Input Section Styles */
 .input-section {
-    margin: 1.5rem auto;
+    margin: 1rem auto;
     width: 90%;
     max-width: 500px;
     display: flex;
@@ -178,16 +181,14 @@ nav a:hover {
     font-size: 1.1rem;
     color: #888;
     text-align: center;
-    margin-top: 1rem;
+    margin: 2rem 0; /* Adds spacing around the text */
     font-style: italic;
-    background: url('https://kalyanamdewri.github.io/todo-app/images/bee-icon.png') no-repeat;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: -10px;
-    left: -15px; /* Place bee near the task list */
-    animation: wiggle 5s ease-in-out infinite;
+    line-height: 1.5; /* Improves readability */
+    white-space: nowrap; /* Prevents text from breaking into multiple lines */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds '...' if the text overflows */
 }
+
 
 @keyframes wiggle {
     0% { transform: rotate(0deg); }
@@ -275,21 +276,19 @@ li.completed span {
 
 /* Quote Section (Footer) */
 .quote-section p {
-    margin-top: 1rem;
-    padding: 1rem;
-    text-align: center;
+    margin-top: 1.5rem;
     font-style: italic;
+    color: #E76F51; /* Softer red for error */
     font-size: 1.1rem;
-    color: #E76F51;
-    font-weight: bold;
-    border-radius: 8px;
-    background-color: #FFF3E0;
-    max-width: 500px;
-    margin: 2rem auto;
+    background-color: #FFF3E0; /* Light pastel background */
+    padding: 1.5rem; /* Increased padding for better spacing */
+    border-radius: 10px; /* Rounded corners for consistency */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border: 2px solid #F4A261;
+    text-align: center;
     display: inline-block;
+    width: auto; /* Prevents it from stretching unnecessarily */
 }
+
 
 /* Footer Styles */
 footer {
