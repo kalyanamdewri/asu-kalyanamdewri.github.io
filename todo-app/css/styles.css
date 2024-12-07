@@ -24,6 +24,17 @@ header {
     position: relative; /* Allow positioning of bee image */
 }
 
+.author-name {
+    font-size: 1.2rem;
+    color: #5C4033; /* Matching brown color to keep consistency */
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: normal;
+}
+
+
 /* Top Bar Styles */
 .top-bar {
     position: fixed;
