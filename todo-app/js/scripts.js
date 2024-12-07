@@ -110,15 +110,25 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Fetch Motivational Quote from Quotable API (REST API Integration)
-    fetch("https://api.quotable.io/random")
-    .then(response => response.json())
+    // Fetch Motivational Quote from They Said So Quotes API (REST API Integration)
+    fetch("https://quotes.rest/qod?language=en&category=inspire", {
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer t4yvDyRB5Eb0aO0vwhZZfgSqsDTbiPnpNP1dzWas53f0b604" // Your API key
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
-        document.querySelector("#quote").textContent = `"${data.content}" - ${data.author}`;
+        const quote = data.contents.quotes[0];
+        document.querySelector("#quote").textContent = `"${quote.quote}" - ${quote.author}`;
     })
     .catch(error => {
         console.log('Error:', error);
         document.querySelector("#quote").textContent = "Unable to fetch a quote at the moment. Please try again later.";
     });
-
 });
