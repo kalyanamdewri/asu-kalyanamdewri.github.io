@@ -110,11 +110,15 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Optional: Load Quote of the Day (Extra Credit)
+    // Fetch Motivational Quote from Quotable API (REST API Integration)
     fetch("https://api.quotable.io/random")
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("quote").textContent = `"${data.content}" - ${data.author}`;
-        })
-        .catch(error => console.log("Error fetching the quote:", error));
+    .then(response => response.json())
+    .then(data => {
+        document.querySelector("#quote").textContent = `"${data.content}" - ${data.author}`;
+    })
+    .catch(error => {
+        console.log('Error:', error);
+        document.querySelector("#quote").textContent = "Unable to fetch a quote at the moment. Please try again later.";
+    });
+
 });
