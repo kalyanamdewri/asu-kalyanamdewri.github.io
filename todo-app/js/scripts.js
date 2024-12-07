@@ -3,11 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("taskInput");
     const addTaskBtn = document.getElementById("addTaskBtn");
     const taskList = document.getElementById("taskList");
-    const clearAllTasksBtn = document.getElementById("clearAllTasksBtn");
     const quoteSection = document.getElementById("quote");
     const liveTimeElement = document.getElementById("live-time");
     const locationWeatherElement = document.getElementById("location-weather");
-
 
     // Load tasks from LocalStorage when the document loads
     loadTasks();
@@ -42,13 +40,61 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Event Listener for Deleting All Tasks
-    clearAllTasksBtn?.addEventListener("click", function () {
-        if (confirm("Are you sure you want to delete all tasks?")) {
-            localStorage.removeItem("tasks");
-            taskList.innerHTML = ""; // Clear all tasks from the DOM
+    // Function to Add a Task
+    function addTask() {
+        const taskValue = taskInput.value.trim();
+        if (taskValue !== "") {
+            const emoji = assignEmoji(taskValue);
+            createTaskElement(taskValue, emoji);
+            saveTaskToLocalStorage(taskValue, false);
+            taskInput.value = ""; // Clear the input field
+            taskInput.focus(); // Refocus the input field for quick entry
+        } else {
+            alert("Please enter a valid task.");
         }
-    });
+    }
+
+    // Function to Assign an Emoji Based on Task Description
+    function assignEmoji(taskDescription) {
+        const lowerCaseDescription = taskDescription.toLowerCase();
+        if (lowerCaseDescription.includes("workout") || lowerCaseDescription.includes("gym")) {
+            return "🏋️‍♂️";
+        } else if (lowerCaseDescription.includes("cook") || lowerCaseDescription.includes("food") || lowerCaseDescription.includes("meal")) {
+            return "🍽️";
+        } else if (lowerCaseDescription.includes("study") || lowerCaseDescription.includes("learn") || lowerCaseDescription.includes("read")) {
+            return "📚";
+        } else if (lowerCaseDescription.includes("work") || lowerCaseDescription.includes("office") || lowerCaseDescription.includes("meeting")) {
+            return "💼";
+        } else if (lowerCaseDescription.includes("garden") || lowerCaseDescription.includes("plant")) {
+            return "🌱";
+        } else if (lowerCaseDescription.includes("shopping") || lowerCaseDescription.includes("buy")) {
+            return "🛍️";
+        } else if (lowerCaseDescription.includes("clean") || lowerCaseDescription.includes("house")) {
+            return "🧹";
+        } else {
+            return "📝"; // Default emoji for general tasks
+        }
+    }
+
+    // Function to Create a Task Element in the DOM
+    function createTaskElement(taskName, emoji, completed = false) {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <input type="checkbox" class="complete-checkbox" ${completed ? "checked" : ""}>
+            <span class="${completed ? "completed" : ""}">${emoji} ${taskName}</span>
+            <button class="delete-btn">Delete</button>
+        `;
+        taskList.appendChild(li);
+    }
+
+    // Function to Load Tasks from LocalStorage
+    function loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.forEach(task => {
+            const emoji = assignEmoji(task.name); // Reassign emoji when loading from storage
+            createTaskElement(task.name, emoji, task.completed);
+        });
+    }
 
     // Function to Start the Live Time
     function startLiveTime() {
