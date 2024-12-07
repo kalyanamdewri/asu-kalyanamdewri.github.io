@@ -110,25 +110,35 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Fetch Motivational Quote from They Said So Quotes API (REST API Integration)
-    fetch("https://quotes.rest/qod?language=en&category=inspire", {
-        headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer t4yvDyRB5Eb0aO0vwhZZfgSqsDTbiPnpNP1dzWas53f0b604" // Your API key
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        const quote = data.contents.quotes[0];
-        document.querySelector("#quote").textContent = `"${quote.quote}" - ${quote.author}`;
-    })
-    .catch(error => {
-        console.log('Error:', error);
-        document.querySelector("#quote").textContent = "Unable to fetch a quote at the moment. Please try again later.";
-    });
+    // Function to Fetch Quote of the Day using They Said So API
+    function fetchQuoteOfTheDay() {
+        const url = "https://api.theysaidso.com/qod";
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "x-api-key": "t4yvDyRB5Eb0aO0vwhZZfgSqsDTbiPnpNP1dzWas53f0b604"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch the quote of the day");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success.total > 0) {
+                const quote = data.contents.quotes[0].quote;
+                const author = data.contents.quotes[0].author;
+                quoteSection.textContent = `"${quote}" - ${author}`;
+            } else {
+                quoteSection.textContent = "Could not fetch the quote of the day. Please try again later.";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching quote:", error);
+            quoteSection.textContent = "Could not fetch the quote of the day. Please try again later.";
+        });
+    }
 });
