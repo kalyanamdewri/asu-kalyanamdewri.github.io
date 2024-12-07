@@ -26,27 +26,27 @@ header {
 
 .author-name {
     font-size: 1.2rem;
-    color: #5C4033; /* Matching brown color to keep consistency */
+    color: #5C4033;
     font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
     margin-top: -10px;
     margin-bottom: 10px;
     text-align: center;
-    font-weight: normal;
+    font-weight: bold; /* Make it slightly bolder */
+    text-decoration: underline; /* Add a subtle underline */
 }
+
 
 
 /* Top Bar Styles */
 .top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
     padding: 1rem;
     font-size: 1.2rem;
-    background-color: rgba(255, 235, 179, 0.8); /* Slightly transparent yellow for better visibility */
+    background-color: rgba(255, 235, 179, 0.8); /* Slight transparency */
     color: #5C4033;
     border-bottom-right-radius: 10px;
     display: flex;
     flex-direction: column;
+    gap: 0.5rem; /* Add spacing between date and weather */
     z-index: 1000;
 }
 
@@ -56,7 +56,8 @@ header {
 
 #location-weather {
     display: flex;
-    align-items: center;
+    align-items: center; /* Vertically center the weather icon */
+    gap: 0.5rem; /* Add space between text and the icon */
 }
 
 .weather-icon {
@@ -97,7 +98,7 @@ nav a:hover {
 
 /* Input Section Styles */
 .input-section {
-    margin: 2rem auto;
+    margin: 1.5rem auto;
     width: 90%;
     max-width: 500px;
     display: flex;
@@ -152,8 +153,11 @@ nav a:hover {
 
 #addTaskBtn:hover {
     background-color: #E76F51;
-    transform: scale(1.05);
+    transform: scale(1.05) rotate(3deg); /* Add a slight rotation */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
+
 
 /* Task List Section Styles */
 .task-list-section {
@@ -169,7 +173,13 @@ nav a:hover {
 }
 
 .task-list-section::before {
-    content: '';
+    content: "No tasks added yet! Start by adding a task above.";
+    display: block;
+    font-size: 1.1rem;
+    color: #888;
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
     background: url('https://kalyanamdewri.github.io/todo-app/images/bee-icon.png') no-repeat;
     width: 30px;
     height: 30px;
@@ -205,6 +215,14 @@ li {
     background-color: #FFF3E0;
     border-radius: 10px;
     margin: 0.7rem 0;
+}
+
+li span {
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Add space between emoji and text */
 }
 
 li:hover {
@@ -256,19 +274,21 @@ li.completed span {
 }
 
 /* Quote Section (Footer) */
-.quote-section {
-    margin-top: 2rem;
+.quote-section p {
+    margin-top: 1rem;
     padding: 1rem;
     text-align: center;
     font-style: italic;
-    color: #5C4033;
+    font-size: 1.1rem;
+    color: #E76F51;
     font-weight: bold;
-    border-radius: 15px;
-    background-color: #FFF7E6;
+    border-radius: 8px;
+    background-color: #FFF3E0;
     max-width: 500px;
     margin: 2rem auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border: 2px solid #F4A261;
+    display: inline-block;
 }
 
 /* Footer Styles */
