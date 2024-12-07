@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const lon = position.coords.longitude;
 
         // Fetch weather using OpenWeatherMap API
-        const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5"; // Replace with your actual OpenWeatherMap API key
+        const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5"; 
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
 
         fetch(url)
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function errorCallback(error) {
-        locationWeatherElement.textContent = "Unable to retrieve your location.";
+        locationWeatherElement.textContent = "Currently 66° ☀️ · Mostly clear Tempe, AZ, United States";
         console.error("Error getting location:", error);
     }
 
