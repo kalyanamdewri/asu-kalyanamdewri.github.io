@@ -176,7 +176,7 @@ nav a:hover {
 }
 
 .task-list-section::before {
-    content: "No tasks added yet!";
+    content: "";
     display: block;
     font-size: 1.1rem;
     color: #888;
