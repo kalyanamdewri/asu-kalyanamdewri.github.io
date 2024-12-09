@@ -9,19 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const liveTimeElement = document.getElementById("live-time");
     const locationWeatherElement = document.getElementById("location-weather");
 
-    // Load tasks from LocalStorage when the document loads
+    // Load tasks and initialize features
     loadTasks();
-
-    // Fetch the quote of the day
     fetchQuoteOfTheDay();
-
-    // Initialize live time and weather
     startLiveTime();
     getLocationAndWeather();
 
     // Initialize with today's date
     const today = new Date().toISOString().split("T")[0];
-    taskDate.value = today; // Set the calendar to today's date
+    taskDate.value = today;
     updateHeading(today);
     loadTasksForDate(today);
 
@@ -29,24 +25,11 @@ document.addEventListener("DOMContentLoaded", function () {
     taskDate.addEventListener("change", function () {
         const selectedDate = taskDate.value;
         updateHeading(selectedDate);
-        loadTasksForDate(selectedDate); // Load tasks for the selected date
+        loadTasksForDate(selectedDate);
     });
 
     // Event Listener for Adding a Task
-    addTaskBtn.addEventListener("click", function () {
-        addTask();
-    });
-
-    // Function to Update the Heading
-    function updateHeading(date) {
-        const formattedDate = new Date(date).toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        });
-        dynamicHeading.textContent = `Programme for ${formattedDate} of Mr. Kalyanam Priyam Dewri`;
-    }
+    addTaskBtn.addEventListener("click", addTask);
 
     // Event Listener for Enter Key Press (for accessibility)
     taskInput.addEventListener("keypress", function (e) {
@@ -66,55 +49,56 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-   // Function to Add a Task
-function addTask() {
-    const taskValue = taskInput.value.trim();
-    const selectedDate = taskDate.value; // Ensure taskDate is defined in your context
-
-    if (taskValue !== "") {
-        const emoji = assignEmoji(taskValue); // Assuming assignEmoji is a valid function
-        createTaskElement(taskValue, emoji); // Assuming createTaskElement takes the task value and emoji as arguments
-        saveTaskForDate(selectedDate, taskValue, false); // Assuming saveTaskForDate is your intended storage function
-        taskInput.value = ""; // Clear the input field
-        taskInput.focus(); // Refocus the input field for quick entry
-    } else {
-        alert("Please enter a valid task.");
+    // Function to Update the Heading
+    function updateHeading(date) {
+        const formattedDate = new Date(date).toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+        dynamicHeading.textContent = `Programme for ${formattedDate} of Mr. Kalyanam Priyam Dewri`;
     }
-}
 
+    // Function to Add a Task
+    function addTask() {
+        const taskValue = taskInput.value.trim();
+        const selectedDate = taskDate.value;
+
+        if (taskValue) {
+            const emoji = assignEmoji(taskValue);
+            createTaskElement(taskValue, emoji);
+            saveTaskForDate(selectedDate, taskValue, false);
+            taskInput.value = "";
+            taskInput.focus();
+        } else {
+            alert("Please enter a valid task.");
+        }
+    }
 
     // Function to Assign an Emoji Based on Task Description
     function assignEmoji(taskDescription) {
         const lowerCaseDescription = taskDescription.toLowerCase();
-        if (lowerCaseDescription.includes("workout") || lowerCaseDescription.includes("gym")) {
-            return "🏋️‍♂️";
-        } else if (lowerCaseDescription.includes("cook") || lowerCaseDescription.includes("food") || lowerCaseDescription.includes("meal")) {
-            return "🍽️";
-        } else if (lowerCaseDescription.includes("study") || lowerCaseDescription.includes("learn") || lowerCaseDescription.includes("read")) {
-            return "📚";
-        } else if (lowerCaseDescription.includes("work") || lowerCaseDescription.includes("office") || lowerCaseDescription.includes("meeting")) {
-            return "💼";
-        } else if (lowerCaseDescription.includes("garden") || lowerCaseDescription.includes("plant")) {
-            return "🌱";
-        } else if (lowerCaseDescription.includes("shopping") || lowerCaseDescription.includes("buy")) {
-            return "🛍️";
-        } else if (lowerCaseDescription.includes("clean") || lowerCaseDescription.includes("house")) {
-            return "🧹";
-        } else {
-            return "📝"; // Default emoji for general tasks
-        }
+        if (lowerCaseDescription.includes("workout") || lowerCaseDescription.includes("gym")) return "🏋️‍♂️";
+        if (lowerCaseDescription.includes("cook") || lowerCaseDescription.includes("food")) return "🍽️";
+        if (lowerCaseDescription.includes("study") || lowerCaseDescription.includes("read")) return "📚";
+        if (lowerCaseDescription.includes("work") || lowerCaseDescription.includes("meeting")) return "💼";
+        if (lowerCaseDescription.includes("garden") || lowerCaseDescription.includes("plant")) return "🌱";
+        if (lowerCaseDescription.includes("shopping") || lowerCaseDescription.includes("buy")) return "🛍️";
+        if (lowerCaseDescription.includes("clean") || lowerCaseDescription.includes("house")) return "🧹";
+        return "📝";
     }
 
- // Function to Create a Task Element in the DOM
-function createTaskElement(taskName, emoji, completed = false) {
-    const li = document.createElement("li");
-    li.innerHTML = `
-        <input type="checkbox" class="complete-checkbox" ${completed ? "checked" : ""}>
-        <span class="${completed ? "completed" : ""}">${emoji} ${taskName}</span>
-        <button class="delete-btn">Delete</button>
-    `;
-    taskList.appendChild(li);
-}
+    // Function to Create a Task Element in the DOM
+    function createTaskElement(taskName, emoji, completed = false) {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <input type="checkbox" class="complete-checkbox" ${completed ? "checked" : ""}>
+            <span class="${completed ? "completed" : ""}">${emoji} ${taskName}</span>
+            <button class="delete-btn">Delete</button>
+        `;
+        taskList.appendChild(li);
+    }
 
     // Function to Save a Task for a Specific Date
     function saveTaskForDate(date, taskName, completed) {
@@ -124,21 +108,13 @@ function createTaskElement(taskName, emoji, completed = false) {
         localStorage.setItem(key, JSON.stringify(tasks));
     }
 
-     // Function to Load Tasks for a Specific Date
+    // Function to Load Tasks for a Specific Date
     function loadTasksForDate(date) {
         const key = `tasks-${date}`;
         const tasks = JSON.parse(localStorage.getItem(key)) || [];
-        taskList.innerHTML = ""; // Clear existing tasks
+        taskList.innerHTML = "";
         tasks.forEach(task => {
-            createTaskElement(task.name, task.completed);
-        });
-
-
-    // Function to Load Tasks from LocalStorage
-    function loadTasks() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks.forEach(task => {
-            const emoji = assignEmoji(task.name); // Reassign emoji when loading from storage
+            const emoji = assignEmoji(task.name);
             createTaskElement(task.name, emoji, task.completed);
         });
     }
@@ -147,10 +123,15 @@ function createTaskElement(taskName, emoji, completed = false) {
     function startLiveTime() {
         function updateTime() {
             const now = new Date();
-            const day = now.toLocaleDateString('en-US', { weekday: 'long' });
-            const date = now.toLocaleDateString('en-US');
-            const time = now.toLocaleTimeString('en-US', { hour12: false });
-            liveTimeElement.textContent = `${day}, ${date}, ${time}`;
+            liveTimeElement.textContent = now.toLocaleString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            });
         }
         updateTime();
         setInterval(updateTime, 1000);
@@ -166,140 +147,65 @@ function createTaskElement(taskName, emoji, completed = false) {
     }
 
     function successCallback(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        // Fetch weather using OpenWeatherMap API
-        const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5"; 
+        const { latitude: lat, longitude: lon } = position.coords;
+        const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5";
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                const temperature = data.main.temp;
-                const weatherDescription = data.weather[0].description;
-
-                // Determine which icon to use based on temperature
-                let weatherIcon = "images/sunny-icon.png"; // Default sunny icon
-                if (temperature < 15) {
-                    weatherIcon = "images/cold-icon.png"; // Use cold icon if temperature is below 15°C
-                }
-
-                // Update weather information
-                locationWeatherElement.innerHTML = `Weather: ${Math.round(temperature)}°C, ${weatherDescription}
-                    <img src="${weatherIcon}" alt="weather icon" class="weather-icon">`;
+                const { temp: temperature } = data.main;
+                const { description: weatherDescription } = data.weather[0];
+                locationWeatherElement.textContent = `${Math.round(temperature)}°C - ${weatherDescription}`;
             })
-            .catch(error => {
-                locationWeatherElement.textContent = "Unable to fetch weather data.";
-                console.error("Error fetching weather data:", error);
+            .catch(() => {
+                locationWeatherElement.textContent = "Weather information unavailable.";
             });
     }
 
-    function errorCallback(error) {
-        locationWeatherElement.textContent = "Currently 66° ☀️ · Mostly clear Tempe, AZ, United States";
-        console.error("Error getting location:", error);
+    function errorCallback() {
+        locationWeatherElement.textContent = "Unable to access location.";
     }
 
-    // Function to Add a Task
-    function addTask() {
-        const taskValue = taskInput.value.trim();
-        if (taskValue !== "") {
-            createTaskElement(taskValue);
-            saveTaskToLocalStorage(taskValue, false);
-            taskInput.value = ""; // Clear the input field
-            taskInput.focus(); // Refocus the input field for quick entry
-        } else {
-            alert("Please enter a valid task.");
-        }
-    }
-
-    // Function to Create a Task Element in the DOM
-    function createTaskElement(taskName, completed = false) {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <input type="checkbox" class="complete-checkbox" ${completed ? "checked" : ""}>
-            <span class="${completed ? "completed" : ""}">${taskName}</span>
-            <button class="delete-btn">Delete</button>
-        `;
-        taskList.appendChild(li);
-    }
-
-    // Function to Load Tasks from LocalStorage
-    function loadTasks() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks.forEach(task => {
-            createTaskElement(task.name, task.completed);
-        });
-    }
-
-    // Function to Save a Task to LocalStorage
-    function saveTaskToLocalStorage(taskName, completed) {
-        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks.push({ name: taskName, completed: completed });
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-
-    // Function to Delete a Task from the DOM and LocalStorage with Animation
-    function deleteTask(deleteButton) {
-        const taskElement = deleteButton.parentElement;
-        taskElement.classList.add("removed"); // Add the 'removed' class to animate
-
-        setTimeout(() => {
-            const taskName = taskElement.querySelector("span").textContent;
-
-            // Remove from DOM after the animation
-            taskElement.remove();
-
-            // Remove from LocalStorage
-            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-            tasks = tasks.filter(task => task.name !== taskName);
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-        }, 300); // Delay to match the CSS animation
-    }
-
-    // Function to Toggle Task Completion in the DOM and LocalStorage
-    function toggleTaskCompletion(checkbox) {
-        const taskElement = checkbox.nextElementSibling;
-        taskElement.classList.toggle("completed");
-
-        // Update LocalStorage
-        const taskName = taskElement.textContent;
-        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks = tasks.map(task =>
-            task.name === taskName ? { ...task, completed: checkbox.checked } : task
-        );
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-
-    // Function to Fetch Quote of the Day using They Said So API
+    // Function to Fetch Quote of the Day
     function fetchQuoteOfTheDay() {
         const url = "https://api.theysaidso.com/qod";
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "x-api-key": "t4yvDyRB5Eb0aO0vwhZZfgSqsDTbiPnpNP1dzWas53f0b604"
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch the quote of the day");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success.total > 0) {
-                const quote = data.contents.quotes[0].quote;
-                const author = data.contents.quotes[0].author;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const { quote, author } = data.contents.quotes[0];
                 quoteSection.textContent = `"${quote}" - ${author}`;
-            } else {
-                quoteSection.textContent = "Could not fetch the quote of the day. Please try again later.";
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching quote:", error);
-            quoteSection.textContent = "Could not fetch the quote of the day. Please try again later.";
-        });
+            })
+            .catch(() => {
+                quoteSection.textContent = "Unable to fetch the quote of the day.";
+            });
+    }
+
+    // Function to Delete a Task
+    function deleteTask(deleteButton) {
+        const taskElement = deleteButton.parentElement;
+        const taskName = taskElement.querySelector("span").textContent.trim();
+        const date = taskDate.value;
+
+        taskElement.remove();
+        const key = `tasks-${date}`;
+        let tasks = JSON.parse(localStorage.getItem(key)) || [];
+        tasks = tasks.filter(task => task.name !== taskName);
+        localStorage.setItem(key, JSON.stringify(tasks));
+    }
+
+    // Function to Toggle Task Completion
+    function toggleTaskCompletion(checkbox) {
+        const taskElement = checkbox.nextElementSibling;
+        const taskName = taskElement.textContent.trim();
+        const date = taskDate.value;
+
+        taskElement.classList.toggle("completed");
+        const key = `tasks-${date}`;
+        let tasks = JSON.parse(localStorage.getItem(key)) || [];
+        tasks = tasks.map(task => 
+            task.name === taskName ? { ...task, completed: checkbox.checked } : task
+        );
+        localStorage.setItem(key, JSON.stringify(tasks));
     }
 });
