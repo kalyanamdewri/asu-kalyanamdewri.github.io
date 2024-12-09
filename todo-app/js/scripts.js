@@ -9,17 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const liveTimeElement = document.getElementById("live-time");
     const locationWeatherElement = document.getElementById("location-weather");
 
-    // Load tasks and initialize features
-    loadTasks();
+    // Load tasks, quote, time, and weather on page load
+    loadTasksForDate(new Date().toISOString().split("T")[0]);
     fetchQuoteOfTheDay();
     startLiveTime();
     getLocationAndWeather();
 
-    // Initialize with today's date
+    // Initialize date picker with today's date
     const today = new Date().toISOString().split("T")[0];
     taskDate.value = today;
     updateHeading(today);
-    loadTasksForDate(today);
 
     // Event Listener for Date Change
     taskDate.addEventListener("change", function () {
@@ -31,14 +30,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Listener for Adding a Task
     addTaskBtn.addEventListener("click", addTask);
 
-    // Event Listener for Enter Key Press (for accessibility)
+    // Event Listener for Enter Key Press
     taskInput.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             addTask();
         }
     });
 
-    // Event Listener for Task Modifications
+    // Event Listener for Task List Actions
     taskList.addEventListener("click", function (e) {
         if (e.target.classList.contains("delete-btn")) {
             if (confirm("Are you sure you want to delete this task?")) {
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Function to Update the Heading
+    // Function to Update the Dynamic Heading
     function updateHeading(date) {
         const formattedDate = new Date(date).toLocaleDateString("en-US", {
             weekday: "long",
@@ -76,20 +75,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Function to Assign an Emoji Based on Task Description
+    // Function to Assign an Emoji
     function assignEmoji(taskDescription) {
         const lowerCaseDescription = taskDescription.toLowerCase();
         if (lowerCaseDescription.includes("workout") || lowerCaseDescription.includes("gym")) return "🏋️‍♂️";
-        if (lowerCaseDescription.includes("cook") || lowerCaseDescription.includes("food")) return "🍽️";
+        if (lowerCaseDescription.includes("cook") || lowerCaseDescription.includes("meal")) return "🍽️";
         if (lowerCaseDescription.includes("study") || lowerCaseDescription.includes("read")) return "📚";
-        if (lowerCaseDescription.includes("work") || lowerCaseDescription.includes("meeting")) return "💼";
+        if (lowerCaseDescription.includes("work") || lowerCaseDescription.includes("office")) return "💼";
         if (lowerCaseDescription.includes("garden") || lowerCaseDescription.includes("plant")) return "🌱";
         if (lowerCaseDescription.includes("shopping") || lowerCaseDescription.includes("buy")) return "🛍️";
         if (lowerCaseDescription.includes("clean") || lowerCaseDescription.includes("house")) return "🧹";
         return "📝";
     }
 
-    // Function to Create a Task Element in the DOM
+    // Function to Create a Task Element
     function createTaskElement(taskName, emoji, completed = false) {
         const li = document.createElement("li");
         li.innerHTML = `
@@ -100,10 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
         taskList.appendChild(li);
     }
 
-    // Function to Save a Task for a Specific Date
+    // Function to Save Task for a Specific Date
     function saveTaskForDate(date, taskName, completed) {
         const key = `tasks-${date}`;
-        let tasks = JSON.parse(localStorage.getItem(key)) || [];
+        const tasks = JSON.parse(localStorage.getItem(key)) || [];
         tasks.push({ name: taskName, completed });
         localStorage.setItem(key, JSON.stringify(tasks));
     }
@@ -113,72 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const key = `tasks-${date}`;
         const tasks = JSON.parse(localStorage.getItem(key)) || [];
         taskList.innerHTML = "";
-        tasks.forEach(task => {
-            const emoji = assignEmoji(task.name);
-            createTaskElement(task.name, emoji, task.completed);
-        });
-    }
-
-    // Function to Start the Live Time
-    function startLiveTime() {
-        function updateTime() {
-            const now = new Date();
-            liveTimeElement.textContent = now.toLocaleString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-            });
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
-    }
-
-    // Function to Get User Location and Weather Information
-    function getLocationAndWeather() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-        } else {
-            locationWeatherElement.textContent = "Geolocation is not supported by this browser.";
-        }
-    }
-
-    function successCallback(position) {
-        const { latitude: lat, longitude: lon } = position.coords;
-        const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5";
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const { temp: temperature } = data.main;
-                const { description: weatherDescription } = data.weather[0];
-                locationWeatherElement.textContent = `${Math.round(temperature)}°C - ${weatherDescription}`;
-            })
-            .catch(() => {
-                locationWeatherElement.textContent = "Weather information unavailable.";
-            });
-    }
-
-    function errorCallback() {
-        locationWeatherElement.textContent = "Unable to access location.";
-    }
-
-    // Function to Fetch Quote of the Day
-    function fetchQuoteOfTheDay() {
-        const url = "https://api.theysaidso.com/qod";
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const { quote, author } = data.contents.quotes[0];
-                quoteSection.textContent = `"${quote}" - ${author}`;
-            })
-            .catch(() => {
-                quoteSection.textContent = "Unable to fetch the quote of the day.";
-            });
+        tasks.forEach(task => createTaskElement(task.name, assignEmoji(task.name), task.completed));
     }
 
     // Function to Delete a Task
@@ -188,6 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const date = taskDate.value;
 
         taskElement.remove();
+
         const key = `tasks-${date}`;
         let tasks = JSON.parse(localStorage.getItem(key)) || [];
         tasks = tasks.filter(task => task.name !== taskName);
@@ -197,15 +132,75 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to Toggle Task Completion
     function toggleTaskCompletion(checkbox) {
         const taskElement = checkbox.nextElementSibling;
+        taskElement.classList.toggle("completed");
+
         const taskName = taskElement.textContent.trim();
         const date = taskDate.value;
 
-        taskElement.classList.toggle("completed");
         const key = `tasks-${date}`;
-        let tasks = JSON.parse(localStorage.getItem(key)) || [];
-        tasks = tasks.map(task => 
+        const tasks = JSON.parse(localStorage.getItem(key)) || [];
+        const updatedTasks = tasks.map(task =>
             task.name === taskName ? { ...task, completed: checkbox.checked } : task
         );
-        localStorage.setItem(key, JSON.stringify(tasks));
+        localStorage.setItem(key, JSON.stringify(updatedTasks));
+    }
+
+    // Function to Fetch Quote of the Day
+    function fetchQuoteOfTheDay() {
+        const url = "https://api.theysaidso.com/qod";
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const quote = data.contents.quotes[0]?.quote;
+                const author = data.contents.quotes[0]?.author;
+                quoteSection.textContent = quote ? `"${quote}" - ${author}` : "Could not fetch the quote of the day.";
+            })
+            .catch(() => {
+                quoteSection.textContent = "Could not fetch the quote of the day.";
+            });
+    }
+
+    // Function to Start Live Time
+    function startLiveTime() {
+        function updateTime() {
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString("en-US", { hour12: false });
+            const formattedDate = now.toLocaleDateString("en-US");
+            const formattedDay = now.toLocaleDateString("en-US", { weekday: "long" });
+            liveTimeElement.textContent = `${formattedDay}, ${formattedDate}, ${formattedTime}`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+
+    // Function to Fetch Weather Information
+    function getLocationAndWeather() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude: lat, longitude: lon } = position.coords;
+                    const apiKey = "1c38c1a13bf9a4fb07ffbde830cb33a5";
+                    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            const temperature = Math.round(data.main.temp);
+                            const weatherDescription = data.weather[0].description;
+                            const weatherIcon = temperature < 15 ? "images/cold-icon.png" : "images/sunny-icon.png";
+                            locationWeatherElement.innerHTML = `Weather: ${temperature}°C, ${weatherDescription}
+                                <img src="${weatherIcon}" alt="Weather icon" class="weather-icon">`;
+                        })
+                        .catch(() => {
+                            locationWeatherElement.textContent = "Unable to fetch weather data.";
+                        });
+                },
+                () => {
+                    locationWeatherElement.textContent = "Currently 66° ☀️ · Mostly clear Tempe, AZ, United States";
+                }
+            );
+        } else {
+            locationWeatherElement.textContent = "Geolocation is not supported by this browser.";
+        }
     }
 });
+
