@@ -5,9 +5,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskList = document.getElementById("taskList");
     const taskDate = document.getElementById("taskDate");
     const dynamicHeading = document.getElementById("dynamic-heading");
+    const userNameInput = document.getElementById("userName");
+    const saveNameBtn = document.getElementById("saveNameBtn");
     const quoteSection = document.getElementById("quote");
     const liveTimeElement = document.getElementById("live-time");
     const locationWeatherElement = document.getElementById("location-weather");
+
+
+  // Load the saved user name or use a default
+    const savedUserName = localStorage.getItem("userName") || "Mr. Kalyanam Priyam Dewri";
+    userNameInput.value = savedUserName; // Pre-fill the input field
+    updateHeading(taskDate.value, savedUserName);
+
+    // Event Listener for Saving User Name
+    saveNameBtn.addEventListener("click", function () {
+        const userName = userNameInput.value.trim();
+        if (userName) {
+            localStorage.setItem("userName", userName);
+            updateHeading(taskDate.value, userName); // Update heading with new name
+        } else {
+            alert("Please enter a valid name.");
+        }
+    });
 
     // Load tasks, quote, time, and weather on page load
     loadTasksForDate(new Date().toISOString().split("T")[0]);
@@ -22,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event Listener for Date Change
     taskDate.addEventListener("change", function () {
+        updateHeading(taskDate.value, savedUserName);
         const selectedDate = taskDate.value;
         updateHeading(selectedDate);
         loadTasksForDate(selectedDate);
@@ -50,15 +70,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Function to Update the Dynamic Heading
-    function updateHeading(date) {
+    function updateHeading(date, userName) {
         const formattedDate = new Date(date).toLocaleDateString("en-US", {
             weekday: "long",
             year: "numeric",
             month: "long",
             day: "numeric",
         });
-        dynamicHeading.textContent = `Programme for ${formattedDate} of Mr. Kalyanam Priyam Dewri`;
+        dynamicHeading.textContent = `Programme for ${formattedDate} of ${userName}`;
     }
+});
 
     // Function to Add a Task
     function addTask() {
