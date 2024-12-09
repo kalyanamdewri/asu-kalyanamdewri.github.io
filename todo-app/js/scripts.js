@@ -39,12 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event Listener for Task List Actions
     taskList.addEventListener("click", function (e) {
+        const selectedDate = taskDate.value;
         if (e.target.classList.contains("delete-btn")) {
             if (confirm("Are you sure you want to delete this task?")) {
-                deleteTask(e.target);
+                deleteTask(e.target, selectedDate);
             }
         } else if (e.target.classList.contains("complete-checkbox")) {
-            toggleTaskCompletion(e.target);
+            toggleTaskCompletion(e.target, selectedDate);
         }
     });
 
@@ -117,17 +118,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to Delete a Task
     function deleteTask(deleteButton) {
-        const taskElement = deleteButton.parentElement;
-        const taskName = taskElement.querySelector("span").textContent.trim();
-        const date = taskDate.value;
+    const taskElement = deleteButton.parentElement;
+    const taskName = taskElement.querySelector("span").textContent.trim();
+    
+    taskElement.remove(); // Remove the task element from the DOM
 
-        taskElement.remove();
+    const key = `tasks-${selectedDate}`;
+    let tasks = JSON.parse(localStorage.getItem(key)) || [];
+    tasks = tasks.filter(task => task.name !== taskName); // Filter out the deleted task
+    localStorage.setItem(key, JSON.stringify(tasks)); // Save the updated tasks back to localStorage
+}
 
-        const key = `tasks-${date}`;
-        let tasks = JSON.parse(localStorage.getItem(key)) || [];
-        tasks = tasks.filter(task => task.name !== taskName);
-        localStorage.setItem(key, JSON.stringify(tasks));
-    }
 
     // Function to Toggle Task Completion
     function toggleTaskCompletion(checkbox) {
