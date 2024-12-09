@@ -35,6 +35,44 @@ header {
     text-decoration: underline; /* Keeps the underline for emphasis */
 }
 
+/* User Section */
+.user-section {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.user-section label {
+    font-size: 1.2rem;
+    color: #5C4033;
+    margin-right: 0.5rem;
+}
+
+#userName {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 2px solid #F4A261;
+    border-radius: 5px;
+    background-color: #FFFDE7;
+    color: #5C4033;
+}
+
+#saveNameBtn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #F4A261;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#saveNameBtn:hover {
+    background-color: #E76F51;
+}
+
+
+
 /* Dynamic Heading */
 #dynamic-heading {
     font-size: 1.8rem;
