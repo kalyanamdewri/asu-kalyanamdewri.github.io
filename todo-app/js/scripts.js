@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("taskInput");
     const addTaskBtn = document.getElementById("addTaskBtn");
     const taskList = document.getElementById("taskList");
+    const taskDate = document.getElementById("taskDate");
+    const dynamicHeading = document.getElementById("dynamic-heading");
     const quoteSection = document.getElementById("quote");
     const liveTimeElement = document.getElementById("live-time");
     const locationWeatherElement = document.getElementById("location-weather");
@@ -17,10 +19,34 @@ document.addEventListener("DOMContentLoaded", function () {
     startLiveTime();
     getLocationAndWeather();
 
+    // Initialize with today's date
+    const today = new Date().toISOString().split("T")[0];
+    taskDate.value = today; // Set the calendar to today's date
+    updateHeading(today);
+    loadTasksForDate(today);
+
+    // Event Listener for Date Change
+    taskDate.addEventListener("change", function () {
+        const selectedDate = taskDate.value;
+        updateHeading(selectedDate);
+        loadTasksForDate(selectedDate); // Load tasks for the selected date
+    });
+
     // Event Listener for Adding a Task
     addTaskBtn.addEventListener("click", function () {
         addTask();
     });
+
+    // Function to Update the Heading
+    function updateHeading(date) {
+        const formattedDate = new Date(date).toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+        dynamicHeading.textContent = `Programme for ${formattedDate} of Mr. Kalyanam Priyam Dewri`;
+    }
 
     // Event Listener for Enter Key Press (for accessibility)
     taskInput.addEventListener("keypress", function (e) {
@@ -40,19 +66,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Function to Add a Task
-    function addTask() {
-        const taskValue = taskInput.value.trim();
-        if (taskValue !== "") {
-            const emoji = assignEmoji(taskValue);
-            createTaskElement(taskValue, emoji);
-            saveTaskToLocalStorage(taskValue, false);
-            taskInput.value = ""; // Clear the input field
-            taskInput.focus(); // Refocus the input field for quick entry
-        } else {
-            alert("Please enter a valid task.");
-        }
+   // Function to Add a Task
+function addTask() {
+    const taskValue = taskInput.value.trim();
+    const selectedDate = taskDate.value; // Ensure taskDate is defined in your context
+
+    if (taskValue !== "") {
+        const emoji = assignEmoji(taskValue); // Assuming assignEmoji is a valid function
+        createTaskElement(taskValue, emoji); // Assuming createTaskElement takes the task value and emoji as arguments
+        saveTaskForDate(selectedDate, taskValue, false); // Assuming saveTaskForDate is your intended storage function
+        taskInput.value = ""; // Clear the input field
+        taskInput.focus(); // Refocus the input field for quick entry
+    } else {
+        alert("Please enter a valid task.");
     }
+}
+
 
     // Function to Assign an Emoji Based on Task Description
     function assignEmoji(taskDescription) {
@@ -76,16 +105,34 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Function to Create a Task Element in the DOM
-    function createTaskElement(taskName, emoji, completed = false) {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <input type="checkbox" class="complete-checkbox" ${completed ? "checked" : ""}>
-            <span class="${completed ? "completed" : ""}">${emoji} ${taskName}</span>
-            <button class="delete-btn">Delete</button>
-        `;
-        taskList.appendChild(li);
+ // Function to Create a Task Element in the DOM
+function createTaskElement(taskName, emoji, completed = false) {
+    const li = document.createElement("li");
+    li.innerHTML = `
+        <input type="checkbox" class="complete-checkbox" ${completed ? "checked" : ""}>
+        <span class="${completed ? "completed" : ""}">${emoji} ${taskName}</span>
+        <button class="delete-btn">Delete</button>
+    `;
+    taskList.appendChild(li);
+}
+
+    // Function to Save a Task for a Specific Date
+    function saveTaskForDate(date, taskName, completed) {
+        const key = `tasks-${date}`;
+        let tasks = JSON.parse(localStorage.getItem(key)) || [];
+        tasks.push({ name: taskName, completed });
+        localStorage.setItem(key, JSON.stringify(tasks));
     }
+
+     // Function to Load Tasks for a Specific Date
+    function loadTasksForDate(date) {
+        const key = `tasks-${date}`;
+        const tasks = JSON.parse(localStorage.getItem(key)) || [];
+        taskList.innerHTML = ""; // Clear existing tasks
+        tasks.forEach(task => {
+            createTaskElement(task.name, task.completed);
+        });
+
 
     // Function to Load Tasks from LocalStorage
     function loadTasks() {
