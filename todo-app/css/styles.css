@@ -35,6 +35,36 @@ header {
     text-decoration: underline; /* Keeps the underline for emphasis */
 }
 
+/* Dynamic Heading */
+#dynamic-heading {
+    font-size: 1.8rem;
+    color: #5C4033;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+/* Date Picker Section */
+.date-picker {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.date-picker label {
+    font-size: 1.2rem;
+    color: #5C4033;
+    margin-right: 0.5rem;
+}
+
+#taskDate {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 2px solid #F4A261;
+    border-radius: 5px;
+    background-color: #FFFDE7;
+    color: #5C4033;
+}
+
 
 
 /* Top Bar Styles */
